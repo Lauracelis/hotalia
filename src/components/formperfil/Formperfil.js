@@ -1,7 +1,7 @@
 import React from 'react';
 import "./Formperfil.css";
 import Swal from "sweetalert2";
-import {Formik} from "formik";
+import {Formik, Form, Field, ErrorMessage} from "formik";
 
 let Formperfil=()=>{
 
@@ -73,14 +73,17 @@ let Formperfil=()=>{
                     // Validación de errores input pais
                     if (!valores.pais) {
                         errores.pais = 'Por favor ingresar su país de nacimiento'
-                    } else if (!/^\d{7,14}$/.test(valores.pais)){
+                    } else if (!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(valores.pais)){
                         errores.pais = 'El país de nacimiento solo puede contener letras y espacios'
                     }
 
                     return errores;
                 }}
 
-                onSubmit={(valores)=>{
+                onSubmit={(valores,{resetForm})=>{
+                    
+                    resetForm();
+
                     Swal.fire(
                         'Información actualizada',
                         'Su información de perfil ha sido actualizada correctamente!',
@@ -88,124 +91,121 @@ let Formperfil=()=>{
                       )
                 }}
             >
-                {({values, errors, touched, handleSubmit, handleChange, handleBlur})=>(
-                    <form onSubmit={handleSubmit}>
+                {({errors})=>(
+                    <Form>
                     <div className="form-sections">
                             <div className="form-divisions">
                                 <label htmlFor="nombres">Nombres</label>
-                                <input
+                                <Field
                                 type="text"
                                 id="nombres"
                                 name="nombres"
-                                value={values.nombres}
-                                onChange={handleChange}
-                                onBlur={handleBlur}/>
-                                {touched.nombres && errors.nombres && <div className='mensajeError'>{errors.nombres}</div>}
+                                />
+                                <ErrorMessage name='nombres' component={()=>(
+                                    <div className='mensajeError'>{errors.nombres}</div>
+                                )}/>
                             </div>
                             <div className="form-divisions">
                                 <label htmlFor="apellidos">Apellidos</label>
-                                <input
+                                <Field
                                 type="text"
                                 id="apellidos"
                                 name="apellidos"
-                                value={values.apellidos}
-                                onChange={handleChange}
-                                onBlur={handleBlur}/>
-                                {touched.apellidos && errors.apellidos && <div className='mensajeError'>{errors.apellidos}</div>}
+                                />
+                                <ErrorMessage name='apellidos' component={()=>(
+                                    <div className='mensajeError'>{errors.apellidos}</div>
+                                )}/>
                             </div>
                         </div>
                         <div className="form-sections">
                             <div className="form-divisions">
                                 <label htmlFor="tipoDocumento">Tipo de documento de identidad</label>
-                                <select 
+                                <Field 
+                                as="select"
                                 id="tipoDocumento" 
                                 name="tipoDocumento" 
-                                value={values.tipoDocumento} 
-                                onChange={handleChange}
-                                onBlur={handleBlur}>
+                                >
                                     <option value="" defaultValue>Elija su documento</option>
                                     <option value="Registro Civil">Registro Civil</option>
                                     <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
                                     <option value="Cédula de ciudadanía">Cédula de ciudadanía</option>
                                     <option value="Cédula de extranjería">Cédula de extranjería</option>
-                                </select>
+                                </Field>
                             </div>
                             <div className="form-divisions">
                                 <label htmlFor="numeroDocumento">Número de documento de identidad</label>
-                                <input
+                                <Field
                                 type="number"
                                 id="numeroDocumento"
                                 name="numeroDocumento"
-                                value={values.numeroDocumento}
-                                onChange={handleChange}
-                                onBlur={handleBlur}/>
-                                {touched.numeroDocumento && errors.numeroDocumento && <div className='mensajeError'>{errors.numeroDocumento}</div>}
+                                />
+                                <ErrorMessage name='numeroDocumento' component={()=>(
+                                    <div className='mensajeError'>{errors.numeroDocumento}</div>
+                                )}/>
                             </div>
                         </div>
                         <div className="form-sections">
                             <div className="form-divisions">
                                 <label htmlFor="fechaNacimiento">Fecha de nacimiento</label>
-                                <input
+                                <Field
                                 type="date"
                                 id="fechaNacimiento"
                                 name="fechaNacimiento"
-                                value={values.fechaNacimiento}
-                                onChange={handleChange}
-                                onBlur={handleBlur}/>
+                                />
                             </div>
                             <div className="form-divisions">
                                 <label htmlFor="genero">Género</label>
-                                <input
+                                <Field
                                 type="text"
                                 id="genero"
                                 name="genero"
-                                value={values.genero}
-                                onChange={handleChange}
-                                onBlur={handleBlur}/>
-                                {touched.genero && errors.genero && <div className='mensajeError'>{errors.genero}</div>}
+                                />
+                                <ErrorMessage name='genero' component={()=>(
+                                    <div className='mensajeError'>{errors.genero}</div>
+                                )}/>
                             </div>
                         </div>
                         <div className="form-sections">
                             <div className="form-divisions">
                                 <label htmlFor="correo">Correo</label>
-                                <input
+                                <Field
                                 type="email"
                                 id="correo"
                                 name="correo"
-                                value={values.correo}
-                                onChange={handleChange}
-                                onBlur={handleBlur}/>
-                                {touched.correo && errors.correo && <div className='mensajeError'>{errors.correo}</div>}
+                                />
+                                <ErrorMessage name='correo' component={()=>(
+                                    <div className='mensajeError'>{errors.correo}</div>
+                                )}/>
                             </div>
                             <div className="form-divisions">
                                 <label htmlFor="telefono">Teléfono de contacto</label>
-                                <input
+                                <Field
                                 type="number"
                                 id="telefono"
                                 name="telefono"
-                                value={values.telefono}
-                                onChange={handleChange}
-                                onBlur={handleBlur}/>
-                                {touched.telefono && errors.telefono && <div className='mensajeError'>{errors.telefono}</div>}
+                                />
+                                <ErrorMessage name='telefono' component={()=>(
+                                    <div className='mensajeError'>{errors.telefono}</div>
+                                )}/>
                             </div>
                         </div>
                         <div className="form-sections">
                             <div className="form-divisions">
                                 <label htmlFor="pais">País de origen</label>
-                                <input
+                                <Field
                                 type="text"
                                 id="pais"
                                 name="pais"
-                                value={values.pais}
-                                onChange={handleChange}
-                                onBlur={handleBlur}/>
-                                {touched.pais && errors.pais && <div className='mensajeError'>{errors.pais}</div>}
+                                />
+                                <ErrorMessage name='pais' component={()=>(
+                                    <div className='mensajeError'>{errors.pais}</div>
+                                )}/>
                             </div>
                         </div>
                         <div className="form-profile-button">
                             <button type="submit" className="general-button">Guardar cambios</button>
                         </div>
-                    </form>
+                    </Form>
                 )}
             </Formik>
         </section>
