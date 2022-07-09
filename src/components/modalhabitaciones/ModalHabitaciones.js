@@ -1,3 +1,4 @@
+import React from 'react';
 import "./ModalHabitaciones.css";
 
 let ModalHabitaciones=(props)=>{

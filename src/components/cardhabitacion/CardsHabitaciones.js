@@ -1,3 +1,4 @@
+import React from 'react';
 import {Card} from "react-bootstrap";
 import "./CardsHabitaciones.css";
 import ModalHabitaciones from "../modalhabitaciones/ModalHabitaciones.js";

@@ -1,3 +1,4 @@
+import React from 'react';
 import Footer from "../../components/footer/Footer";
 import Formperfil from "../../components/formperfil/Formperfil";
 import TextPerfil from "../../components/textperfil/TextPerfil";

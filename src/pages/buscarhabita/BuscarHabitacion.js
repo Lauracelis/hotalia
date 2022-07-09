@@ -1,3 +1,4 @@
+import React from 'react';
 import CardsHabitaciones from "../../components/cardhabitacion/CardsHabitaciones";
 import Footer from "../../components/footer/Footer";
 import FBHabitacion from "../../components/formbushabita/FBHabitacion";

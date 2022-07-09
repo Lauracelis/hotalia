@@ -1,3 +1,4 @@
+import React from 'react';
 import './Reservaciones.css';
 import {Card} from 'react-bootstrap';
 import Footer from '../../components/footer/Footer';

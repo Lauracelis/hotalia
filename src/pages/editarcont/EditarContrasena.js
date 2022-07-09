@@ -1,3 +1,4 @@
+import React from 'react';
 import TextPerfil from "../../components/textperfil/TextPerfil";
 import Footer from "../../components/footer/Footer";
 import "./Editarcontraseña.css";

@@ -1,88 +1,213 @@
+import React from 'react';
 import "./Formperfil.css";
 import Swal from "sweetalert2";
+import {Formik} from "formik";
 
 let Formperfil=()=>{
-
-    const sendFormProfile=(e)=>{
-      e.preventDefault();  
-
-      Swal.fire(
-        'Información actualizada',
-        'Su información de perfil ha sido actualizada correctamente!',
-        'success'
-      )
-    }
 
     return(
         <>
         <section className="form-modify-profile">
             <h2>Editar datos</h2>
 
-            <form>
-                <div className="form-sections">
-                    <div className="form-divisions">
-                        <label>Nombres</label>
-                        <input
-                        type="text"/>
-                    </div>
-                    <div className="form-divisions">
-                        <label>Apellidos</label>
-                        <input
-                        type="text"/>
-                    </div>
-                </div>
-                <div className="form-sections">
-                    <div className="form-divisions">
-                        <label>Tipo de documento de identidad</label>
-                        <select>
-                            <option value="" selected>Elija su documento</option>
-                            <option value="Registro Civil">Registro Civil</option>
-                            <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
-                            <option value="Cédula de ciudadanía">Cédula de ciudadanía</option>
-                            <option value="Cédula de extranjería">Cédula de extranjería</option>
-                        </select>
-                    </div>
-                    <div className="form-divisions">
-                        <label>Número de documento de identidad</label>
-                        <input
-                        type="number"/>
-                    </div>
-                </div>
-                <div className="form-sections">
-                    <div className="form-divisions">
-                        <label>Fecha de nacimiento</label>
-                        <input
-                        type="date"/>
-                    </div>
-                    <div className="form-divisions">
-                        <label>Genero</label>
-                        <input
-                        type="text"/>
-                    </div>
-                </div>
-                <div className="form-sections">
-                    <div className="form-divisions">
-                        <label>Correo</label>
-                        <input
-                        type="mail"/>
-                    </div>
-                    <div className="form-divisions">
-                        <label>Telefono de contacto</label>
-                        <input
-                        type="number"/>
-                    </div>
-                </div>
-                <div className="form-sections">
-                    <div className="form-divisions">
-                        <label>País de origen</label>
-                        <input
-                        type="text"/>
-                    </div>
-                </div>
-                <div className="form-profile-button">
-                    <button type="submit" className="general-button" onClick={sendFormProfile}>Guardar cambios</button>
-                </div>
-            </form>
+            <Formik
+
+                initialValues={{
+                    nombres: '',
+                    apellidos:'',
+                    tipoDocumento: '',
+                    numeroDocumento: '',
+                    fechaNacimiento: '',
+                    genero:'',
+                    correo:'',
+                    telefono: '',
+                    pais: ''
+                }}
+
+                validate={(valores)=>{
+
+                    let errores={}
+
+                    // Validación de errores input nombres
+                    if (!valores.nombres) {
+                        errores.nombres = 'Por favor ingresar un nombre'
+                    } else if (!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(valores.nombres)){
+                        errores.nombres = 'El nombre solo puede contener letras y espacios'
+                    }
+
+                    // Validación de errores input apellidos
+                    if (!valores.apellidos) {
+                        errores.apellidos = 'Por favor ingresar un apellido'
+                    } else if (!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(valores.apellidos)){
+                        errores.apellidos = 'El apellido solo puede contener letras y espacios'
+                    }
+
+                    // Validación de errores input numeroDocumento
+                    if (!valores.numeroDocumento) {
+                        errores.numeroDocumento = 'Por favor ingresar el número de documento'
+                    } else if (!/^\d{7,10}$/.test(valores.numeroDocumento)){
+                        errores.numeroDocumento = 'Solo puede ingresar de 7 a 10 números'
+                    }
+
+                    // Validación de errores input genero
+                    if (!valores.genero) {
+                        errores.genero = 'Por favor ingresar su género'
+                    } else if (!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(valores.genero)){
+                        errores.genero = 'El género solo puede contener letras y espacios'
+                    }
+
+                    // Validación de errores input correo
+                    if (!valores.correo) {
+                        errores.correo = 'Por favor ingresar su correo electrónico'
+                    } else if (!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(valores.correo)){
+                        errores.correo = 'Por favor ingresar un correo válido, e.j: usuario@mail.com'
+                    }
+
+                    // Validación de errores input telefono
+                    if (!valores.telefono) {
+                        errores.telefono = 'Por favor ingresar su número telefónico de contacto'
+                    } else if (!/^\d{7,14}$/.test(valores.telefono)){
+                        errores.telefono = 'El teléfono solo puede contener numeros y mínimo 7 y máximo 14 dígitos'
+                    }
+
+                    // Validación de errores input pais
+                    if (!valores.pais) {
+                        errores.pais = 'Por favor ingresar su país de nacimiento'
+                    } else if (!/^\d{7,14}$/.test(valores.pais)){
+                        errores.pais = 'El país de nacimiento solo puede contener letras y espacios'
+                    }
+
+                    return errores;
+                }}
+
+                onSubmit={(valores)=>{
+                    Swal.fire(
+                        'Información actualizada',
+                        'Su información de perfil ha sido actualizada correctamente!',
+                        'success'
+                      )
+                }}
+            >
+                {({values, errors, touched, handleSubmit, handleChange, handleBlur})=>(
+                    <form onSubmit={handleSubmit}>
+                    <div className="form-sections">
+                            <div className="form-divisions">
+                                <label htmlFor="nombres">Nombres</label>
+                                <input
+                                type="text"
+                                id="nombres"
+                                name="nombres"
+                                value={values.nombres}
+                                onChange={handleChange}
+                                onBlur={handleBlur}/>
+                                {touched.nombres && errors.nombres && <div className='mensajeError'>{errors.nombres}</div>}
+                            </div>
+                            <div className="form-divisions">
+                                <label htmlFor="apellidos">Apellidos</label>
+                                <input
+                                type="text"
+                                id="apellidos"
+                                name="apellidos"
+                                value={values.apellidos}
+                                onChange={handleChange}
+                                onBlur={handleBlur}/>
+                                {touched.apellidos && errors.apellidos && <div className='mensajeError'>{errors.apellidos}</div>}
+                            </div>
+                        </div>
+                        <div className="form-sections">
+                            <div className="form-divisions">
+                                <label htmlFor="tipoDocumento">Tipo de documento de identidad</label>
+                                <select 
+                                id="tipoDocumento" 
+                                name="tipoDocumento" 
+                                value={values.tipoDocumento} 
+                                onChange={handleChange}
+                                onBlur={handleBlur}>
+                                    <option value="" defaultValue>Elija su documento</option>
+                                    <option value="Registro Civil">Registro Civil</option>
+                                    <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+                                    <option value="Cédula de ciudadanía">Cédula de ciudadanía</option>
+                                    <option value="Cédula de extranjería">Cédula de extranjería</option>
+                                </select>
+                            </div>
+                            <div className="form-divisions">
+                                <label htmlFor="numeroDocumento">Número de documento de identidad</label>
+                                <input
+                                type="number"
+                                id="numeroDocumento"
+                                name="numeroDocumento"
+                                value={values.numeroDocumento}
+                                onChange={handleChange}
+                                onBlur={handleBlur}/>
+                                {touched.numeroDocumento && errors.numeroDocumento && <div className='mensajeError'>{errors.numeroDocumento}</div>}
+                            </div>
+                        </div>
+                        <div className="form-sections">
+                            <div className="form-divisions">
+                                <label htmlFor="fechaNacimiento">Fecha de nacimiento</label>
+                                <input
+                                type="date"
+                                id="fechaNacimiento"
+                                name="fechaNacimiento"
+                                value={values.fechaNacimiento}
+                                onChange={handleChange}
+                                onBlur={handleBlur}/>
+                            </div>
+                            <div className="form-divisions">
+                                <label htmlFor="genero">Género</label>
+                                <input
+                                type="text"
+                                id="genero"
+                                name="genero"
+                                value={values.genero}
+                                onChange={handleChange}
+                                onBlur={handleBlur}/>
+                                {touched.genero && errors.genero && <div className='mensajeError'>{errors.genero}</div>}
+                            </div>
+                        </div>
+                        <div className="form-sections">
+                            <div className="form-divisions">
+                                <label htmlFor="correo">Correo</label>
+                                <input
+                                type="email"
+                                id="correo"
+                                name="correo"
+                                value={values.correo}
+                                onChange={handleChange}
+                                onBlur={handleBlur}/>
+                                {touched.correo && errors.correo && <div className='mensajeError'>{errors.correo}</div>}
+                            </div>
+                            <div className="form-divisions">
+                                <label htmlFor="telefono">Teléfono de contacto</label>
+                                <input
+                                type="number"
+                                id="telefono"
+                                name="telefono"
+                                value={values.telefono}
+                                onChange={handleChange}
+                                onBlur={handleBlur}/>
+                                {touched.telefono && errors.telefono && <div className='mensajeError'>{errors.telefono}</div>}
+                            </div>
+                        </div>
+                        <div className="form-sections">
+                            <div className="form-divisions">
+                                <label htmlFor="pais">País de origen</label>
+                                <input
+                                type="text"
+                                id="pais"
+                                name="pais"
+                                value={values.pais}
+                                onChange={handleChange}
+                                onBlur={handleBlur}/>
+                                {touched.pais && errors.pais && <div className='mensajeError'>{errors.pais}</div>}
+                            </div>
+                        </div>
+                        <div className="form-profile-button">
+                            <button type="submit" className="general-button">Guardar cambios</button>
+                        </div>
+                    </form>
+                )}
+            </Formik>
         </section>
         </>
     )
